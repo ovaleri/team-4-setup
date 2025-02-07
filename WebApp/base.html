@@ -3,10 +3,28 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title></title>
+        <title>{% block title %}4BitCoderz - Base{% endblock %}</title>
         <link rel="stylesheet" href="format.css">
     </head>
     <body>
-        <h1> Hello </h1>
+        <header>
+            <!--Company Logo AKA our group name-->
+            <div class="logo"  style="text-align: left;">
+                <h3 style="color: black;">4BitCoderz</h1>
+            </div>
+        </header>
+        {% block body %}
+        <!--Individual Page Body Content Gets Inserted Here-->
+        {% endblock %}
+        <footer style="text-align: center; display: flex; align-self: flex-end; justify-content: center;">
+            <!--Company Copyright and etc-->
+            <h6>
+                1151 S Forest Ave, Tempe, AZ 85281, USA<br>
+                &copy; 2025 4BitCoderz. All rights reserved.
+            </h6>
+        </footer>
     </body>
+    {% block code %}
+    <!-- js gets inserted here-->
+    {% endblock %}
 </html>
