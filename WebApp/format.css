@@ -59,3 +59,22 @@ logo {
     justify-content: left;
     padding: 10px;
 }
+
+img_wrapper {
+    position: relative;
+    width: 100%;
+    font-size: 0;
+}
+
+img_overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(128, 128, 128, 0.75);
+ }
+
+ img_wrapper img{
+    width: 100%;
+ }
