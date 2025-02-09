@@ -111,15 +111,17 @@ footer {
     border-radius: 5px;
 }
 
-.flex-box{
-    display: flexbox;
+.flex{
+    display: flex;
     position: relative;
     width: 20%;
-    background-color: grey;
+    background-color: #f8f8f8;
     border-radius: 10px;
     height: 90%;
     padding: 10px;
     margin: 0 10px;
+    font-family: Tahoma, sans-serif;
+    font-size: medium;
 }
 .inline-block{
     display: inline-block;
@@ -137,9 +139,15 @@ footer {
     background: #000000; 
 } 
 .rectangle-7 { 
+    display: flex;
+    justify-content: center;
     width: 56px; 
     height: 56px; 
     padding: 8px 8px 8px 8px; 
     background: #EBEBEB; 
-    border-radius: 0.6875px 0.6875px 0.6875px 0.6875px; 
+    border-radius: 20px; 
+    align-items: center;
+}
+span{
+    display: block;
 }
