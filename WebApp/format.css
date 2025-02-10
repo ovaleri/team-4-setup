@@ -75,11 +75,19 @@ footer {
 
 .img_overlay {
     position: absolute;
+    display: flex;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background-color: #ebebeb8d;
+    font-family: Tahoma, sans-serif;
+    color: rgb(75, 75, 75);
+    text-align: left;
+    align-items: center;
+    font-size: medium;
+    flex-wrap: wrap;
+    flex-direction: row;
  }
 
  .navbar {
@@ -149,5 +157,64 @@ footer {
     align-items: center;
 }
 span{
-    display: block;
+    display: block; 
+}
+.custom-button{
+    cursor: pointer;
+    display: flex;
+    border: none;
+    width: 150px; 
+    border-radius: 50px; 
+    background-color: rgb(47, 47, 47);
+    align-items: center; 
+    justify-content: center;
+    height: 40px;
+    color: antiquewhite;
+    transition: background-color 0.3s ease, color 0.3s ease, border 0.3s ease;
+}
+.custom-button:hover{
+    background-color: white !important; 
+    color: rgb(47,47,47) !important;
+    border: none !important;
+}
+.custom-form{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.custom-input-field{
+    width: 15%;
+    height: 7%;
+    padding: 5px;
+    margin: 10px;
+    font-size: large;
+    font-family: inherit;
+}
+::placeholder{
+    text-align: center;
+}
+.share-button{
+    cursor: pointer;
+    display: flex;
+    border: none;
+    width: 8%; 
+    max-height: 35px;
+    border-radius: 5px; 
+    background-color: rgb(80, 80, 80);
+    align-items: center; 
+    justify-content: center;
+    height: 40px;
+    color: antiquewhite;
+    transition: border 0.3s ease;
+    font-size: large; 
+    padding: 10px; 
+    margin: 10px;
+    font-weight: bold;
+}
+.share-button:hover{
+    border-radius: 5px;
+    border: 4px solid rgb(100, 100, 100);
 }
