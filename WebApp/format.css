@@ -157,7 +157,7 @@ footer {
     align-items: center;
 }
 span{
-    display: block; 
+    display: block;
 }
 .custom-button{
     cursor: pointer;
@@ -217,4 +217,47 @@ span{
 .share-button:hover{
     border-radius: 5px;
     border: 4px solid rgb(100, 100, 100);
+}
+
+.large-button{
+    cursor: pointer;
+    display: flex;
+    border: none;
+    width: 25%; 
+    border-radius: 50px; 
+    background-color: rgba(47, 47, 47, 0.30);
+    margin: 15px;
+    align-items: center; 
+    justify-content: center;
+    height: auto;
+    color: antiquewhite;
+    transition: background-color 1s ease, color 1s ease, border .3s ease;  
+}
+.large-button:hover{
+    background-color: rgba(103, 0, 103, 0.502);
+    border: solid rgb(255, 255, 255) 2px;
+}
+
+.tag-container{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; 
+    padding: 10px;
+    object-fit: fill;
+    justify-content: center;
+    align-items: center;
+}
+
+.tag { 
+    padding: 10px; 
+    border: 1px solid black; 
+    cursor: pointer; 
+}
+
+.tag.selected{ 
+    background-color: lightblue; 
+}
+
+.hidden{
+    display: none;
 }
