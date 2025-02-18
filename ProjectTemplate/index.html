@@ -1,43 +1,194 @@
-﻿<!DOCTYPE html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-	<meta charset="utf-8" />
-	<title></title>
-	<!--DO NOT FORGET THIS SCRIPT TAG SO YOU CAN USE JQUERY!!!!!-->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foodie's Heaven | Log In</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- jQuery -->
 
-	<!--YOUR OWN JAVASCRIPT CAN GO RIGHT HERE-->
-	<script type="text/javascript">
-		function TestButtonHandler() {
-			var webMethod = "ProjectServices.asmx/TestConnection";
-			var parameters = "{}";
+    <style>
+        
+        /* General styling */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
 
-			//jQuery ajax method
-			$.ajax({
-				type: "POST",
-				url: webMethod,
-				data: parameters,
-				contentType: "application/json; charset=utf-8",
-				dataType: "json",
-				success: function (msg) {
-					var responseFromServer = msg.d;
-					alert(responseFromServer);
-				},
-				error: function (e) {
-					alert("this code will only execute if javascript is unable to access the webservice");
-				}
-			});
-		}
-	</script>
-	<!--END OF YOUR OWN JAVASCRIPT-->
+        /* Overlay effect for readability */
+        .overlay {
+            background: rgba(0, 0, 0, 0.6);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
 
-	<!--AND YOUR OWN CSS CAN GO HERE AS WELL-->
-	<style>
+        /* Login container */
+        .login-container {
+            position: relative;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 350px;
+            z-index: 2;
+        }
 
-	</style>
-	<!--END OF YOUR OWN CSS-->
-</head >
+        /* Logo styling */
+        .logo {
+            font-size: 28px;
+            font-weight: 600;
+            color: gray; /* Warm food-related color */
+            margin-bottom: 10px;
+        }
+
+        /* Subtitle */
+        .subtitle {
+            color: #444;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        /* Input fields */
+        .login-container input {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        /* Buttons */
+        .login-container button {
+            width: 100%;
+            background-color: darkslategrey; /* Food-inspired orange */
+            color: white;
+            border: none;
+            padding: 12px;
+            margin-top: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background 0.3s ease-in-out;
+        }
+
+        /* Hover effect */
+        .login-container button:hover {
+            background-color: greenyellow;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 15px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .footer a {
+            color: green;
+            font-weight: bold;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive design */
+        @media (max-width: 400px) {
+            .login-container {
+                width: 90%;
+            }
+        }
+    </style>
+
+    <script>
+        // Log In Function
+        function LogOn() {
+            var webMethod = "/ProjectServices.asmx/LogOn"; 
+            var id = document.getElementById("logonId").value;
+            var pass = document.getElementById("logonPass").value;
+
+            var parameters = JSON.stringify({ uid: id, pass: pass });
+
+            $.ajax({
+                type: "POST",
+                url: webMethod,
+                data: parameters,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (msg) {
+                    var responseFromServer = msg.d;
+                    if (responseFromServer) {
+                        alert("Welcome to Food For Thought !");
+                    } else {
+                        alert("Invalid credentials. Try again.");
+                    }
+                },
+                error: function (e) {
+                    alert("There was a problem connecting to the server.");
+                }
+            });
+        }
+
+        // Sign Up Function
+        function SignUp() {
+            var webMethod = "/ProjectServices.asmx/SignUp"; 
+            var id = document.getElementById("logonId").value;
+            var pass = document.getElementById("logonPass").value;
+
+            if (id === "" || pass === "") {
+                alert("Please enter both a username and password.");
+                return;
+            }
+
+            var parameters = JSON.stringify({ uid: id, pass: pass });
+
+            $.ajax({
+                type: "POST",
+                url: webMethod,
+                data: parameters,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (msg) {
+                    var responseFromServer = msg.d;
+                    if (responseFromServer) {
+                        alert("Account successfully created! You can now log in.");
+                    } else {
+                        alert("Sign-up failed. Try a different username.");
+                    }
+                },
+                error: function (e) {
+                    alert("There was a problem connecting to the server.");
+                }
+            });
+        }
+    </script>
+</head>
 <body>
-	<button onclick="javascript: TestButtonHandler();">Click here to test connection!</button>
+
+    <div class="overlay"></div> <!-- Dark overlay for background readability -->
+    
+    <div class="login-container">
+        <div class="logo">🍔 Food For Thought </div>
+        <div class="subtitle">Login to explore delicious recipes </div>
+        <input type="text" id="logonId" placeholder="Username"/>
+        <input type="password" id="logonPass" placeholder="Password"/>
+        <button onclick="LogOn();">Log In</button>
+        <div class="footer">Don't have an account? <a onclick="SignUp();">Sign Up</a></div>
+    </div>
+
 </body>
-</html >
+</html>
+
