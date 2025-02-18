@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -19,9 +19,9 @@ namespace ProjectTemplate
 		////////////////////////////////////////////////////////////////////////
 		///replace the values of these variables with your database credentials
 		////////////////////////////////////////////////////////////////////////
-		private string dbID = "cis440template";
-		private string dbPass = "!!Cis440";
-		private string dbName = "cis440template";
+		private string dbID = "cis440springA2025team4";
+		private string dbPass = "cis440springA2025team4";
+		private string dbName = "cis440springA2025team4";
 		////////////////////////////////////////////////////////////////////////
 		
 		////////////////////////////////////////////////////////////////////////
@@ -43,7 +43,7 @@ namespace ProjectTemplate
 		{
 			try
 			{
-				string testQuery = "select * from test";
+				string testQuery = "select * from users";
 
 				////////////////////////////////////////////////////////////////////////
 				///here's an example of using the getConString method!
@@ -62,5 +62,54 @@ namespace ProjectTemplate
 				return "Something went wrong, please check your credentials and db name and try again.  Error: "+e.Message;
 			}
 		}
-	}
+
+        [WebMethod(EnableSession = true)] // NOTICE: gotta enable session on each individual method
+        public bool LogOn(string uid, string pass)
+        {
+            // We return this flag to tell them if they logged in or not
+            bool success = false;
+
+			// Our connection string comes from our web.config file like we talked about earlier
+			string sqlConnectString = getConString();
+
+            // Here's our query. A basic select with nothing fancy.
+            // NOTICE: We added admin to what we pull, so that we can store it along with the id in the session
+            string sqlSelect = "SELECT  id FROM users WHERE userid=@idValue AND pass=@passValue";
+
+            // Set up our connection object to be ready to use our connection string
+            MySqlConnection sqlConnection = new MySqlConnection(sqlConnectString);
+
+            // Set up our command object to use our connection, and our query
+            MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
+
+            // Tell our command to replace the @parameters with real values
+            // We decode them because they came to us via the web, so they were encoded for transmission (funky characters escaped, mostly)
+            sqlCommand.Parameters.AddWithValue("@idValue", HttpUtility.UrlDecode(uid));
+            sqlCommand.Parameters.AddWithValue("@passValue", HttpUtility.UrlDecode(pass));
+
+            // A data adapter acts like a bridge between our command object and
+            // the data we are trying to get back and put in a table object
+            MySqlDataAdapter sqlDa = new MySqlDataAdapter(sqlCommand);
+
+            // Here's the table we want to fill with the results from our query
+            DataTable sqlDt = new DataTable();
+
+            // Here we go filling it!
+            sqlDa.Fill(sqlDt);
+
+            // Check to see if any rows were returned. If they were, it means it's a legit account
+            if (sqlDt.Rows.Count > 0)
+            {
+                // If we found an account, store the id and admin status in the session
+                // so we can check those values later on other method calls to see if they
+                // are 1) logged in at all, and 2) an admin or not
+                Session["id"] = sqlDt.Rows[0]["id"];
+                //Session["admin"] = sqlDt.Rows[0]["admin"];
+                success = true;
+            }
+
+            // Return the result!
+            return success;
+        }
+    }
 }
