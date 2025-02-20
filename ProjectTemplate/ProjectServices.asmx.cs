@@ -111,5 +111,50 @@ namespace ProjectTemplate
             // Return the result!
             return success;
         }
+        [WebMethod(EnableSession = true)]
+        public bool SignUp(string uid, string pass)
+        {
+            bool success = false;
+            string sqlConnectString = getConString();
+
+            try
+            {
+                using (MySqlConnection sqlConnection = new MySqlConnection(sqlConnectString))
+                {
+                    sqlConnection.Open();
+
+                    // Check if the username already exists
+                    string checkUserQuery = "SELECT COUNT(*) FROM users WHERE userid = @idValue";
+                    using (MySqlCommand checkUserCmd = new MySqlCommand(checkUserQuery, sqlConnection))
+                    {
+                        checkUserCmd.Parameters.AddWithValue("@idValue", HttpUtility.UrlDecode(uid));
+                        int userExists = Convert.ToInt32(checkUserCmd.ExecuteScalar());
+
+                        if (userExists > 0)
+                        {
+                            return false; // Username already taken
+                        }
+                    }
+
+                    // If username does not exist, insert new user
+                    string sqlInsert = "INSERT INTO users (userid, pass) VALUES (@idValue, @passValue)";
+                    using (MySqlCommand sqlCommand = new MySqlCommand(sqlInsert, sqlConnection))
+                    {
+                        sqlCommand.Parameters.AddWithValue("@idValue", HttpUtility.UrlDecode(uid));
+                        sqlCommand.Parameters.AddWithValue("@passValue", HttpUtility.UrlDecode(pass));
+
+                        int rowsAffected = sqlCommand.ExecuteNonQuery();
+                        success = rowsAffected > 0;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                // Log the exception for debugging purposes
+                Console.WriteLine("Error: " + e.Message);
+            }
+
+            return success;
+        }
     }
 }

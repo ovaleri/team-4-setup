@@ -116,7 +116,7 @@
     <script>
         // Log In Function
         function LogOn() {
-            var webMethod = "/ProjectServices.asmx/LogOn"; 
+            var webMethod = "/ProjectServices.asmx/LogOn";
             var id = document.getElementById("logonId").value;
             var pass = document.getElementById("logonPass").value;
 
@@ -131,7 +131,8 @@
                 success: function (msg) {
                     var responseFromServer = msg.d;
                     if (responseFromServer) {
-                        alert("Welcome to Food For Thought !");
+                        alert("Welcome to Food For Thought!");
+                        window.location.href = "home.html"; // Redirect to home page
                     } else {
                         alert("Invalid credentials. Try again.");
                     }
@@ -144,35 +145,7 @@
 
         // Sign Up Function
         function SignUp() {
-            var webMethod = "/ProjectServices.asmx/SignUp"; 
-            var id = document.getElementById("logonId").value;
-            var pass = document.getElementById("logonPass").value;
-
-            if (id === "" || pass === "") {
-                alert("Please enter both a username and password.");
-                return;
-            }
-
-            var parameters = JSON.stringify({ uid: id, pass: pass });
-
-            $.ajax({
-                type: "POST",
-                url: webMethod,
-                data: parameters,
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (msg) {
-                    var responseFromServer = msg.d;
-                    if (responseFromServer) {
-                        alert("Account successfully created! You can now log in.");
-                    } else {
-                        alert("Sign-up failed. Try a different username.");
-                    }
-                },
-                error: function (e) {
-                    alert("There was a problem connecting to the server.");
-                }
-            });
+            window.location.href = "signup.html"; // Redirects to the sign-up page
         }
     </script>
 </head>

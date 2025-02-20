@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>4BitCoderz - Base</title>
+        <link rel="stylesheet" href="format.css">
+    </head>
+    <body>
+        <header style="height: 20px; display: flex; justify-content: space-between; align-items: center;">
+            <!--Company Logo AKA our group name-->
+            <div class="logo" style="color: #000000; text-align: left; padding: 10px;">
+                4BitCoderz
+            </div>
+            <div class="navbar" style="color: black; align-items: center; text-align: center; justify-content: center;">
+                    <div style="border-right: 1px solid grey; display: flex; height: 90%;">
+                    <a href="./sign-up">Sign Up</a>
+                    </div>
+                    <a href="../ProjectTemplate/index.html">Login</a>
+            </div>
+        </header>
+
+        <!-- Navbar to allow user navigation to different pages -->
+        <nav style="border-top: solid black 2px;">
+            <ul>
+                <a href='./home.html'>Home</a>
+                <p style="display: inline;"> | </p>
+                <a href="./findfood.html">Find What You Want</a>
+                <p style="display: inline;"> | </p>
+                <a href="./search.html">Search Recipes</a>
+            </ul>
+        </nav>
+
+        <div class="flex" id="Buttons" style="background-color: rgba(128, 128, 128, 0.499); font-size: larger; width: auto; 
+        border-radius: 0; margin: 0; gap: 10px; flex-wrap: wrap; justify-content: center;">
+
+            <span style="width: 100%; max-height: min-content;">
+                <h2>What size of meal would you like?</h2>
+            </span>
+                <button class="large-button" data-value="Snack" style="height: 300px;">
+                    <h1>Snack</h1>
+                </button>
+                <button class="large-button" data-value="Meal" style="height: 300px">
+                    <h1>Meal</h1>
+                </button>
+                <button class="large-button" data-value="Inbetween" style="height: 300px">
+                    <h1>Something Inbetween</h1>
+                </button>
+
+        </div>
+
+        <!--Individual Page Body Content Gets Inserted Here-->
+
+        <div id="tagSelection" class="hidden" style="background-color: rgba(128, 128, 128, 0.499);">
+            <span style="padding: 10px;"><h2 style="margin-top: 0;">Select up to 10 tags:</h2></span>
+            <div class="tag-container" id="tags"></div>
+        </div> 
+
+        <footer style="text-align: center; display: flex; align-self: flex-end; justify-content: center;">
+            <!--Company Copyright and etc-->
+            <h6>
+                1151 S Forest Ave, Tempe, AZ 85281, USA<br>
+                &copy; 2025 4BitCoderz. All rights reserved.
+            </h6>
+        </footer>
+    </body>
+<script>
+    let selectedButtonValue = "";
+    let selectedTags = [];
+
+        document.querySelectorAll('.large-button').forEach(button => {
+            button.addEventListener('click', function () {
+                // Save button value on click
+                selectedButtonValue = this.getAttribute('data-value');
+                console.log(selectedButtonValue);
+                
+                // Hide buttons container [Container holding the large-buttons]
+                document.getElementById('Buttons').classList.add('hidden');
+
+                // Show tags selection container
+                document.getElementById('tagSelection').classList.remove('hidden');
+
+                // Tags
+                let tags = ["Healthy", "Quick", "Spicy", "Vegan", "Dessert", "High Protein", "Low Carb", 
+                "Gluten-Free", "Keto", "Sweet", "Savory", "Dairy-Free", "Organic", "Budget-Friendly", "Exotic", 
+                "Traditional", "Comfort Food", "Gourmet", "Kids-Friendly", "Breakfast", "Lunch", "Dinner", "Snack", "Fast Food", 
+                "Homemade", "BBQ", "Seafood", "Italian", "Mexican", "Asian", "Mediterranean", "Indian", "American", "French", "Street Food", 
+                "Fusion", "Plant-Based", "Energy Boosting", "Low Fat", "Nut-Free", "Soy-Free", "Sugar-Free", "Paleo", "Sustainable", "Local", "Fermented", 
+                "Raw", "Air-Fried", "Grilled", "Baked", "Fried"];
+                
+                //Find the tag container to be able to add these tags ^ to it
+                let tagsContainer = document.getElementById("tags");
+                tagsContainer.innerHTML = ""; // Clear previous selections
+                
+                //arrow function that creates a div for every tag listed in tags of the class "tag"
+                tags.forEach(tag => {
+                    let tagElement = document.createElement("div");
+                    tagElement.classList.add("tag");
+                    tagElement.innerText = tag;
+                    
+                    //Listens for a click on any tag button, if clicked turns light blue and gets added to selectedTags list or removed if selectedTags includes the clicked tag
+                    tagElement.addEventListener("click", function () {
+                        if (selectedTags.includes(tag)) {
+                            selectedTags = selectedTags.filter(t => t !== tag);
+                            tagElement.classList.remove("selected");
+                            console.log(selectedTags)
+                        } else if (selectedTags.length < 10) { //once selected tags reach length of 10 it won't let you add anymore, but if its less than 10, then the tag turns light blue and gets added
+                            selectedTags.push(tag);
+                            tagElement.classList.add("selected");
+                            console.log(selectedTags)
+                        }
+                    });
+                    //adds a child to tag container of every tag in the tags list
+                    tagsContainer.appendChild(tagElement);
+                });
+            });
+        });
+</script>
+
+</html>
