@@ -24,7 +24,7 @@
             </div>
         </div>
         <!-- Navbar to allow user navigation to different pages -->
-        <nav>
+        <nav style="border-top: solid black 2px;">
             <ul>
                 <a href='./home.html'>Home</a>
                 <p style="display: inline;"> | </p>
@@ -36,6 +36,15 @@
 
 
         <!--Individual Page Body Content Gets Inserted Here-->
+        <div class="search-wrapper" style="background-color: #ededed;">
+            <h1 style="color: rgb(47, 47, 47);">Search our recipes!</h1>
+            <form class="custom-form" action="" method="POST">
+                <input class="custom-input-field" placeholder="Dish name" name="search" id="search">
+                <button class="share-button">Submit</button>
+            </form>
+            <div style="display: flexbox; width: 99%; background-color: #dadada; height: 5px; border-radius: 15px;"></div>
+        </div>
+            
 
         <footer style="text-align: center; display: flex; align-self: flex-end; justify-content: center;">
             <!--Company Copyright and etc-->
@@ -47,5 +56,19 @@
     </body>
 
     <!-- js can get inserted here-->
+    <script>
+        let userSearch = "";
 
+        document.querySelectorAll('.share-button').forEach(button => {
+            button.addEventListener('click', function () {
+                // Save button value on click
+                const SearchID = document.getElementById('search');
+                const SearchValue = SearchID.value;
+                userSearch = SearchValue;
+                console.log(userSearch);
+                SearchID.value = '';
+                event.preventDefault();});
+            });
+
+    </script>
 </html>

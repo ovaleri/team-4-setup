@@ -258,6 +258,15 @@ span{
     background-color: lightblue; 
 }
 
+.search-wrapper{
+    display: flex;
+    position: relative;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
 .hidden{
     display: none;
 }
