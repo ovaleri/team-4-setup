@@ -1,5 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
+  <style>
+        body {
+            font-family: Tahoma, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+        }
+
+        header {
+            background-color: #47ff66;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        nav {
+            background-color: #333;
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            margin: 0 5px;
+            display: inline-block;
+        }
+
+        nav a:hover {
+            background-color: #ff6347;
+            border-radius: 5px;
+        }
+        
+        search-wrapper {
+          width: 50%;
+          text-align: center;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            text-align: center;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            margin-top: 20px;
+        }
+    </style>
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -57,18 +114,51 @@
 
     <!-- js can get inserted here-->
     <script>
-        let userSearch = "";
+        
+          const dishes = [
+        { name: "Spaghetti Bolognese" },
+        { name: "Chicken Alfredo" },
+        { name: "Beef Tacos" },
+        { name: "Vegetable Stir Fry" },
+        { name: "Salmon Sushi" },
+        { name: "Mushroom Risotto" },
+        { name: "Grilled Cheese Sandwich" },
+        { name: "Chocolate Cake" }
+    ];
 
-        document.querySelectorAll('.share-button').forEach(button => {
-            button.addEventListener('click', function () {
-                // Save button value on click
-                const SearchID = document.getElementById('search');
-                const SearchValue = SearchID.value;
-                userSearch = SearchValue;
-                console.log(userSearch);
-                SearchID.value = '';
-                event.preventDefault();});
-            });
+    const searchInput = document.getElementById('search');
+    const searchButton = document.querySelector('.share-button');
+    const resultsContainer = document.createElement('div');
+    resultsContainer.style.padding = '10px';
+    resultsContainer.style.backgroundColor = '#f8f8f8';
+    resultsContainer.style.marginTop = '10px';
+    document.querySelector('.search-wrapper').appendChild(resultsContainer);
+
+    searchButton.addEventListener('click', function (event) {
+        event.preventDefault();
+        const query = searchInput.value.toLowerCase();
+        
+        const filteredDishes = dishes.filter(dish => dish.name.toLowerCase().includes(query));
+        
+        displayResults(filteredDishes);
+        searchInput.value = '';
+    });
+
+    function displayResults(dishes) {
+        resultsContainer.innerHTML = '';
+        if (dishes.length === 0) {
+            resultsContainer.innerHTML = '<p>No results found.</p>';
+            return;
+        }
+        
+        const list = document.createElement('ul');
+        dishes.forEach(dish => {
+            const listItem = document.createElement('li');
+            listItem.textContent = dish.name;
+            list.appendChild(listItem);
+        });
+        resultsContainer.appendChild(list);
+    }
 
     </script>
 </html>
