@@ -11,11 +11,14 @@
             <div class="logo" style="color: #000000; text-align: left; padding: 10px;">
                 4BitCoderz
             </div>
-            <div class="navbar" style="color: black; align-items: center; text-align: center; justify-content: center;">
+            <div class="navbar" id="loginLink" style="color: black; align-items: center; text-align: center; justify-content: center;">
                 <div style="border-right: 1px solid grey; display: flex; height: 90%;">
                     <a href="./signup.html">Sign Up</a>
                 </div>
-                <a id="loginLink" href="../index.html">Login</a>
+                <a href="./index.html">Login</a>
+            </div>
+            <div class="hidden" id="profileLink" style="color: black; align-items: center; text-align: center; justify-content: center;">
+                <a href="../index.html">Login</a>
             </div>
         </header>
         <!--Transluscent filter over stock photo-->
@@ -142,7 +145,9 @@
             var loginLink = document.getElementById("loginLink");
 
             if (loggedInUser) {
-                loginLink.textContent = loggedInUser; // Display username instead of "Login"
+                document.getElementById('loginLink').classList.add('hidden'); // Display username instead of "Login"
+                document.getElementById('profileLink').classList.remove('hidden');
+                document.getElementById('profileLink').classList.add('navbar');
                 loginLink.href = "profile.html"; // Link to profile page
                 loginLink.style.cursor = "pointer";
                 loginLink.style.fontWeight = "bold"; // Make it more visible
