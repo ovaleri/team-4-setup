@@ -117,3 +117,67 @@ button:hover {
 .account-actions button.delete-btn:hover {
     background-color: #da190b;
 }
+
+/* Profile Page Styles */
+.profile-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profile-header {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+}
+
+.profile-picture-container {
+    text-align: center;
+}
+
+#profile-picture {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #e0e0e0;
+}
+
+.change-picture-btn {
+    margin-top: 10px;
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.change-picture-btn:hover {
+    background-color: #45a049;
+}
+
+.profile-info {
+    flex-grow: 1;
+}
+
+.info-item {
+    margin: 15px 0;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 4px;
+}
+
+.label {
+    font-weight: bold;
+    color: #666;
+    margin-right: 10px;
+}
+
+.value {
+    color: #333;
+}

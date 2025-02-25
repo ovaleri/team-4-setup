@@ -92,6 +92,7 @@
   <ItemGroup>
     <Content Include="accountmanager.html" />
     <Content Include="base.html" />
+    <Content Include="default-user.png" />
     <Content Include="findfood.html" />
     <Content Include="format.css" />
     <Content Include="Global.asax" />
@@ -99,6 +100,7 @@
     <Content Include="home_pic.jpg" />
     <Content Include="index.html" />
     <Content Include="list-icon.png" />
+    <Content Include="profile.html" />
     <Content Include="ProjectServices.asmx" />
     <Content Include="Question-mark-icon.png" />
     <Content Include="script.js" />

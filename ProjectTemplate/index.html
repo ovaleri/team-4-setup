@@ -7,7 +7,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- jQuery -->
 
     <style>
-        
+
         /* General styling */
         body {
             font-family: 'Poppins', sans-serif;
@@ -82,10 +82,10 @@
             transition: background 0.3s ease-in-out;
         }
 
-        /* Hover effect */
-        .login-container button:hover {
-            background-color: greenyellow;
-        }
+            /* Hover effect */
+            .login-container button:hover {
+                background-color: greenyellow;
+            }
 
         /* Footer */
         .footer {
@@ -94,16 +94,16 @@
             color: #666;
         }
 
-        .footer a {
-            color: green;
-            font-weight: bold;
-            text-decoration: none;
-            cursor: pointer;
-        }
+            .footer a {
+                color: green;
+                font-weight: bold;
+                text-decoration: none;
+                cursor: pointer;
+            }
 
-        .footer a:hover {
-            text-decoration: underline;
-        }
+                .footer a:hover {
+                    text-decoration: underline;
+                }
 
         /* Responsive design */
         @media (max-width: 400px) {
@@ -114,7 +114,6 @@
     </style>
 
     <script>
-        // Log In Function
         function LogOn() {
             var webMethod = "/ProjectServices.asmx/LogOn";
             var id = document.getElementById("logonId").value;
@@ -131,37 +130,35 @@
                 success: function (msg) {
                     var responseFromServer = msg.d;
                     if (responseFromServer) {
+                        localStorage.setItem("loggedInUser", id); // Store username
                         alert("Welcome to Food For Thought!");
-                        window.location.href = "home.html"; // Redirect to home page
+                        window.location.href = "home.html"; // Redirect to home
+                       
                     } else {
                         alert("Invalid credentials. Try again.");
                     }
                 },
-                error: function (e) {
+                error: function () {
                     alert("There was a problem connecting to the server.");
                 }
             });
-        }
-
-        // Sign Up Function
-        function SignUp() {
-            window.location.href = "signup.html"; // Redirects to the sign-up page
         }
     </script>
 </head>
 <body>
 
     <div class="overlay"></div> <!-- Dark overlay for background readability -->
-    
+
     <div class="login-container">
         <div class="logo">🍔 Food For Thought </div>
         <div class="subtitle">Login to explore delicious recipes </div>
-        <input type="text" id="logonId" placeholder="Username"/>
-        <input type="password" id="logonPass" placeholder="Password"/>
+        <input type="text" id="logonId" placeholder="Username" />
+        <input type="password" id="logonPass" placeholder="Password" />
         <button onclick="LogOn();">Log In</button>
         <div class="footer">Don't have an account? <a onclick="SignUp();">Sign Up</a></div>
     </div>
 
 </body>
 </html>
+
 

@@ -12,10 +12,10 @@
                 4BitCoderz
             </div>
             <div class="navbar" style="color: black; align-items: center; text-align: center; justify-content: center;">
-                    <div style="border-right: 1px solid grey; display: flex; height: 90%;">
+                <div style="border-right: 1px solid grey; display: flex; height: 90%;">
                     <a href="./signup.html">Sign Up</a>
-                    </div>
-                    <a href="../index.html">Login</a>
+                </div>
+                <a id="loginLink" href="../index.html">Login</a>
             </div>
         </header>
         <!--Transluscent filter over stock photo-->
@@ -135,5 +135,32 @@
     </body>
 
     <!-- js can get inserted here-->
+    <script>
+        // Check if the user is logged in
+        document.addEventListener("DOMContentLoaded", function () {
+            var loggedInUser = localStorage.getItem("loggedInUser");
+            var loginLink = document.getElementById("loginLink");
 
+            if (loggedInUser) {
+                loginLink.textContent = loggedInUser; // Display username instead of "Login"
+                loginLink.href = "profile.html"; // Link to profile page
+                loginLink.style.cursor = "pointer";
+                loginLink.style.fontWeight = "bold"; // Make it more visible
+
+                // Add logout option
+                var logoutBtn = document.createElement("a");
+                logoutBtn.textContent = " (Logout)";
+                logoutBtn.href = "#";
+                logoutBtn.style.color = "red";
+                logoutBtn.style.marginLeft = "10px";
+                logoutBtn.onclick = function () {
+                    localStorage.removeItem("loggedInUser");
+                    window.location.reload(); // Refresh to reset UI
+                };
+
+                loginLink.parentNode.appendChild(logoutBtn); // Add logout next to the username
+            }
+
+        });
+    </script>
 </html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Profile</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="format.css">
+</head>
+<body>
+    <div class="navbar">
+        <a href="home.html">Home</a>
+        <a href="findfood.html">Find Food</a>
+        <a href="search.html">Search</a>
+        <div class="navbar-right">
+            <a href="accountmanager.html">Account Manager</a>
+            <a href="#" class="active">Profile</a>
+            <a href="#" id="logout-btn">Logout</a>
+        </div>
+    </div>
+
+    <div class="profile-container">
+        <div class="profile-header">
+            <div class="profile-picture-container">
+                <img src="default-user.png" alt="Profile Picture" id="profile-picture">
+                <button class="change-picture-btn">Change Picture</button>
+            </div>
+            <div class="profile-info">
+                <h1>User Profile</h1>
+                <div class="info-item">
+                    <span class="label">Username:</span>
+                    <span class="value" id="profile-username">Loading...</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Email:</span>
+                    <span class="value">john.doe@example.com</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Member Since:</span>
+                    <span class="value">January 2024</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        // Load stored username
+        document.addEventListener("DOMContentLoaded", function () {
+            const storedUsername = localStorage.getItem("loggedInUser");
+            if (storedUsername) {
+                document.getElementById("profile-username").textContent = storedUsername;
+            } else {
+                document.getElementById("profile-username").textContent = "Guest";
+            }
+
+            // Logout functionality
+            document.getElementById("logout-btn").addEventListener("click", function () {
+                localStorage.removeItem("loggedInUser");
+                window.location.href = "home.html"; // Redirect to login page
+            });
+        });
+        
+    </script>
+</body>
+</html>
