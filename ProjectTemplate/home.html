@@ -11,14 +11,11 @@
             <div class="logo" style="color: #000000; text-align: left; padding: 10px;">
                 4BitCoderz
             </div>
-            <div class="navbar" id="loginLink" style="color: black; align-items: center; text-align: center; justify-content: center;">
+            <div class="navbar" style="color: black; align-items: center; text-align: center; justify-content: center;">
                 <div style="border-right: 1px solid grey; display: flex; height: 90%;">
-                    <a href="./signup.html">Sign Up</a>
+                    <a id="loginLink" href="./signup.html">Sign Up</a>
                 </div>
-                <a href="./index.html">Login</a>
-            </div>
-            <div class="hidden" id="profileLink" style="color: black; align-items: center; text-align: center; justify-content: center;">
-                <a href="../index.html">Login</a>
+                <a id="profileLink" href="./index.html">Login</a>
             </div>
         </header>
         <!--Transluscent filter over stock photo-->
@@ -143,14 +140,16 @@
         document.addEventListener("DOMContentLoaded", function () {
             var loggedInUser = localStorage.getItem("loggedInUser");
             var loginLink = document.getElementById("loginLink");
+            var profileLink = document.getElementById("profileLink");
 
             if (loggedInUser) {
                 document.getElementById('loginLink').classList.add('hidden'); // Display username instead of "Login"
                 document.getElementById('profileLink').classList.remove('hidden');
                 document.getElementById('profileLink').classList.add('navbar');
-                loginLink.href = "profile.html"; // Link to profile page
-                loginLink.style.cursor = "pointer";
-                loginLink.style.fontWeight = "bold"; // Make it more visible
+                document.getElementById('profileLink').textContent = loggedInUser;
+                profileLink.href = "profile.html"; // Link to profile page
+                profileLink.style.cursor = "pointer";
+                profileLink.style.fontWeight = "bold"; // Make it more visible
 
                 // Add logout option
                 var logoutBtn = document.createElement("a");
