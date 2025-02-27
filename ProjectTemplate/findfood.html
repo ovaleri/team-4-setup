@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>4BitCoderz - Base</title>
-        <link rel="stylesheet" href="format.css">
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4BitCoderz - Base</title>
+    <link rel="stylesheet" href="format.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- jQuery -->
+</head>
     <body>
         <header style="height: 20px; display: flex; justify-content: space-between; align-items: center;">
             <!--Company Logo AKA our group name-->
@@ -55,7 +56,9 @@
             <span style="padding: 10px;"><h2 style="margin-top: 0;">Select up to 10 tags:</h2></span>
             <div class="tag-container" id="tags"></div>
         </div> 
-
+        <div id="buttonContainer" class="hidden" style="background-color: rgba(128, 128, 128, 0.499);">
+            <div id="button" class="tag-container   1"></div>
+        </div>
         <footer style="text-align: center; display: flex; align-self: flex-end; justify-content: center;">
             <!--Company Copyright and etc-->
             <h6>
@@ -67,7 +70,25 @@
 <script>
     let selectedButtonValue = "";
     let selectedTags = [];
+    function callSearch() {
 
+        // Perform AJAX request to call the WebMethod
+        $.ajax({
+            type: "POST",  // Use POST to send data to the server
+            url: "ProjectServices.asmx/SearchResults",  // URL of the WebMethod
+            data: JSON.stringify({ tags: selectedTags }),  // Send the inputList as JSON
+            contentType: "application/json; charset=utf-8",  // Content type of the request
+            dataType: "JSON",  // Expect JSON response
+            success: function (response) {
+                console.log(response);  // Log the response to see what comes back
+                alert("Search result: " + response.d);  // Show the JSON result
+            },
+            error: function (xhr, status, error) {
+                // Error handling
+                alert("Error: " + error);
+            }
+        });
+    }
         document.querySelectorAll('.large-button').forEach(button => {
             button.addEventListener('click', function () {
                 // Save button value on click
@@ -79,6 +100,7 @@
 
                 // Show tags selection container
                 document.getElementById('tagSelection').classList.remove('hidden');
+                document.getElementById('buttonContainer').classList.remove('hidden');
 
                 // Tags
                 let tags = ["Healthy", "Quick", "Spicy", "Vegan", "Dessert", "High Protein", "Low Carb", 
@@ -104,7 +126,7 @@
                             selectedTags = selectedTags.filter(t => t !== tag);
                             tagElement.classList.remove("selected");
                             console.log(selectedTags)
-                        } else if (selectedTags.length < 10) { //once selected tags reach length of 10 it won't let you add anymore, but if its less than 10, then the tag turns light blue and gets added
+                        } else if (selectedTags.length < 3) { //once selected tags reach length of 10 it won't let you add anymore, but if its less than 10, then the tag turns light blue and gets added
                             selectedTags.push(tag);
                             tagElement.classList.add("selected");
                             console.log(selectedTags)
@@ -113,8 +135,20 @@
                     //adds a child to tag container of every tag in the tags list
                     tagsContainer.appendChild(tagElement);
                 });
+                let submitContainer = document.getElementById("button");
+                let submit = document.createElement("div");
+
+                submit.innerText = "Submit";
+                submit.classList.add("share-button");
+ 
+                submit.addEventListener("click", function () {
+                    callSearch();
+                });
+                submitContainer.appendChild(submit);
+
             });
-        });
+    });
+  
 </script>
 
 </html>
