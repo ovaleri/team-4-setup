@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -74,7 +74,7 @@
         $.ajax({
             type: "POST",  // Use POST to send data to the server
             url: "ProjectServices.asmx/SearchResults",  // URL of the WebMethod
-            data: JSON.stringify({ tags: selectedTags }),  // Send the inputList as JSON
+            data: JSON.stringify({ tags: selectedTags , size: selectedButtonValue}),  // Send the inputList as JSON
             contentType: "application/json; charset=utf-8",  // Content type of the request
             dataType: "JSON",  // Expect JSON response
             success: function (response) {

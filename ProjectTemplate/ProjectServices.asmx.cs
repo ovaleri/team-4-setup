@@ -179,9 +179,9 @@ namespace ProjectTemplate
             return success;
         }
         [WebMethod(EnableSession = true)]
-        public string SearchResults(string [] tags)
+        public string SearchResults(string [] tags, string size)
         {
-            string sqlSearch = "SELECT * FROM Recipe WHERE tags like";
+            string sqlSearch = "SELECT * FROM Recipe WHERE mealType = '" + size + "' and tags like";
             string sqlConnectString = getConString();
             var recordList = new List<TableRecords>();
 
