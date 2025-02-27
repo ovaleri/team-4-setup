@@ -44,21 +44,19 @@
                 <button class="large-button" data-value="Meal" style="height: 300px">
                     <h1>Meal</h1>
                 </button>
-                <button class="large-button" data-value="Inbetween" style="height: 300px">
-                    <h1>Something Inbetween</h1>
-                </button>
 
         </div>
 
         <!--Individual Page Body Content Gets Inserted Here-->
 
         <div id="tagSelection" class="hidden" style="background-color: rgba(128, 128, 128, 0.499);">
-            <span style="padding: 10px;"><h2 style="margin-top: 0;">Select up to 10 tags:</h2></span>
+            <span style="padding: 10px;"><h2 style="margin-top: 0;">Select up to 3 tags:</h2></span>
             <div class="tag-container" id="tags"></div>
         </div> 
         <div id="buttonContainer" class="hidden" style="background-color: rgba(128, 128, 128, 0.499);">
             <div id="button" class="tag-container   1"></div>
         </div>
+        <h2 id="results"></h2>
         <footer style="text-align: center; display: flex; align-self: flex-end; justify-content: center;">
             <!--Company Copyright and etc-->
             <h6>
@@ -81,7 +79,8 @@
             dataType: "JSON",  // Expect JSON response
             success: function (response) {
                 console.log(response);  // Log the response to see what comes back
-                alert("Search result: " + response.d);  // Show the JSON result
+                alert("Search result: " + response.d);
+                document.getElementById('results').innerHTML = "Search result:<br><br>" + response.d;
             },
             error: function (xhr, status, error) {
                 // Error handling
@@ -140,9 +139,13 @@
 
                 submit.innerText = "Submit";
                 submit.classList.add("share-button");
+                submit.style.boxSizing = "border-box";
  
                 submit.addEventListener("click", function () {
                     callSearch();
+                    document.getElementById('tagSelection').classList.add('hidden'); // Hide the tags section
+                    tagsContainer.innerHTML = "";
+                    document.getElementById('buttonContainer').classList.add('hidden');
                 });
                 submitContainer.appendChild(submit);
 
