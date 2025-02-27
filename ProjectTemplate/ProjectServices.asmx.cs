@@ -21,7 +21,7 @@ public class TableRecords{
     public string instructions { get; set; }
     public override string ToString()
     {
-        return string.Format("{0} | {1} | | {2} | | {3} | | {4} | | {5} | | {6} | | {7} | | {8} |", name, ingredients, calories, protein, fat, carbs, mealType, allergens, Tags);
+        return string.Format("{0} | {1} | {2} | {3} | {4} | {5} | {6} | {7} | {8} | {9} | {10}", recordID, name, ingredients, instructions, calories, protein, fat, carbs, allergens, mealType, Tags);
     }
 }
 
@@ -196,69 +196,57 @@ namespace ProjectTemplate
                     sqlSearch = string.Concat(sqlSearch + " and tags like '%" + item + "%'");
                 }
             }
-
-            /*try
+            sqlSearch = string.Concat(sqlSearch + " LIMIT 3");
+            MySqlConnection sqlConnection = new MySqlConnection(sqlConnectString);
+            // Set up our command object to use our connection, and our query
+            MySqlCommand sqlCommand = new MySqlCommand(sqlSearch, sqlConnection);
+            MySqlDataAdapter sqlDa = new MySqlDataAdapter(sqlCommand);
+            try
             {
-                using (MySqlConnection sqlConnection = new MySqlConnection(sqlConnectString))
+                using (sqlConnection)
                 {
                     sqlConnection.Open();
-                    using (var command = new MySqlCommand(sqlSearch, sqlConnection))
+                    using (sqlCommand)
                     {
-                        using (var reader = command.ExecuteReader())
+                        using (MySqlDataReader reader = sqlCommand.ExecuteReader())
                         {
-                            while (reader.Read())
                             {
-                                var record = new TableRecords();
-                                record.recordID = Convert.ToInt32(reader["recordID"]);
-                                record.allergens = reader["allergens"].ToString();
-                                record.name = reader["recipeName"].ToString();
-                                record.instructions = reader["instructions"].ToString();
-                                record.fat = Convert.ToInt32(reader["fat"]);
-                                record.ingredients = reader["ingredients"].ToString();
-                                record.calories = Convert.ToInt32(reader["calories"]);
-                                record.protein = Convert.ToInt32(reader["protein"]);
-                                record.carbs = Convert.ToInt32(reader["carbs"]);
-                                record.mealType = reader["mealType"].ToString();
-                                record.Tags = reader["tags"].ToString();
+                                while (reader.Read())
+                                {
+                                    var record = new TableRecords();
+                                    record.recordID = Convert.ToInt32(reader["recipeID"]);
+                                    record.allergens = reader["allergens"].ToString();
+                                    record.name = reader["recipeName"].ToString();
+                                    record.instructions = reader["instructions"].ToString();
+                                    record.fat = Convert.ToInt32(reader["fat"]);
+                                    record.ingredients = reader["ingredients"].ToString();
+                                    record.calories = Convert.ToInt32(reader["calories"]);
+                                    record.protein = Convert.ToInt32(reader["protein"]);
+                                    record.carbs = Convert.ToInt32(reader["carbs"]);
+                                    record.mealType = reader["mealType"].ToString();
+                                    record.Tags = reader["tags"].ToString();
 
-                                
-                                recordList.Add(record);
-                                System.Console.WriteLine(recordList);
+
+                                    recordList.Add(record);
+                                    System.Console.WriteLine(recordList);
+                                }
                             }
                         }
                     }
                 }
-             }
+            }
             catch (Exception e)
             {
                 // Log the exception for debugging purposes
                 Console.WriteLine("Error: " + e.Message);
             }
-            string output = "";
-            foreach(var record in recordList)
+            string output = Environment.NewLine;
+            foreach(var rec in recordList)
             {
-                output = string.Concat(output + record + Environment.NewLine);
+                output = string.Concat(output + rec.ToString() + Environment.NewLine + "<br><br>");
             }
-            var jsonResponse = new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(output);*/
-            MySqlConnection sqlConnection = new MySqlConnection(sqlConnectString);
-
-            // Set up our command object to use our connection, and our query
-            MySqlCommand sqlCommand = new MySqlCommand(sqlSearch, sqlConnection);
-            MySqlDataAdapter sqlDa = new MySqlDataAdapter(sqlCommand);
-
-            // Here's the table we want to fill with the results from our query
-            DataTable output = new DataTable();
-            string outputString = "";
-            // Here we go filling it!
-            sqlDa.Fill(output);
-            foreach (DataRow dataRow in output.Rows)
-            {
-                foreach (var item in dataRow.ItemArray)
-                {
-                    outputString = string.Concat(outputString + item);
-                }
-            }
-            return outputString;
+ 
+            return output;
         }
     }
 }
