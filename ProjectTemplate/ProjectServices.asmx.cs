@@ -7,6 +7,24 @@ using MySql.Data;
 using MySql.Data.MySqlClient;
 using System.Data;
 
+public class TableRecords{
+    public int recordID { get; set; }
+    public string name { get; set; }
+    public string ingredients { get; set; }
+    public int calories { get; set; }
+    public int protein { get; set; }
+    public int fat { get; set; }
+    public int carbs { get; set; }
+    public string mealType { get; set; }
+    public string allergens { get; set; }
+    public string Tags { get; set; }
+    public string instructions { get; set; }
+    public override string ToString()
+    {
+        return string.Format("{0} | {1} | | {2} | | {3} | | {4} | | {5} | | {6} | | {7} | | {8} |", name, ingredients, calories, protein, fat, carbs, mealType, allergens, Tags);
+    }
+}
+
 namespace ProjectTemplate
 {
 	[WebService(Namespace = "http://tempuri.org/")]
@@ -44,7 +62,7 @@ namespace ProjectTemplate
 			try
 			{
 				string testQuery = "select * from users";
-
+                string testQuery2 = "select * from Recipe";
 				////////////////////////////////////////////////////////////////////////
 				///here's an example of using the getConString method!
 				////////////////////////////////////////////////////////////////////////
@@ -55,7 +73,11 @@ namespace ProjectTemplate
 				MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
 				DataTable table = new DataTable();
 				adapter.Fill(table);
-				return "Success!";
+                MySqlCommand cmd2 = new MySqlCommand(testQuery2, con);
+                MySqlDataAdapter adapter2 = new MySqlDataAdapter(cmd2);
+                DataTable table2 = new DataTable();
+                adapter.Fill(table2);
+                return "Success!";
 			}
 			catch (Exception e)
 			{
@@ -155,6 +177,88 @@ namespace ProjectTemplate
             }
 
             return success;
+        }
+        [WebMethod(EnableSession = true)]
+        public string SearchResults(string [] tags)
+        {
+            string sqlSearch = "SELECT * FROM Recipe WHERE tags like";
+            string sqlConnectString = getConString();
+            var recordList = new List<TableRecords>();
+
+            foreach (string item in tags)
+            {
+                if(item == tags[0])
+                {
+                    sqlSearch = string.Concat(sqlSearch + " '%" + item + "%'");
+                }
+                else
+                {
+                    sqlSearch = string.Concat(sqlSearch + " and tags like '%" + item + "%'");
+                }
+            }
+
+            /*try
+            {
+                using (MySqlConnection sqlConnection = new MySqlConnection(sqlConnectString))
+                {
+                    sqlConnection.Open();
+                    using (var command = new MySqlCommand(sqlSearch, sqlConnection))
+                    {
+                        using (var reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                var record = new TableRecords();
+                                record.recordID = Convert.ToInt32(reader["recordID"]);
+                                record.allergens = reader["allergens"].ToString();
+                                record.name = reader["recipeName"].ToString();
+                                record.instructions = reader["instructions"].ToString();
+                                record.fat = Convert.ToInt32(reader["fat"]);
+                                record.ingredients = reader["ingredients"].ToString();
+                                record.calories = Convert.ToInt32(reader["calories"]);
+                                record.protein = Convert.ToInt32(reader["protein"]);
+                                record.carbs = Convert.ToInt32(reader["carbs"]);
+                                record.mealType = reader["mealType"].ToString();
+                                record.Tags = reader["tags"].ToString();
+
+                                
+                                recordList.Add(record);
+                                System.Console.WriteLine(recordList);
+                            }
+                        }
+                    }
+                }
+             }
+            catch (Exception e)
+            {
+                // Log the exception for debugging purposes
+                Console.WriteLine("Error: " + e.Message);
+            }
+            string output = "";
+            foreach(var record in recordList)
+            {
+                output = string.Concat(output + record + Environment.NewLine);
+            }
+            var jsonResponse = new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(output);*/
+            MySqlConnection sqlConnection = new MySqlConnection(sqlConnectString);
+
+            // Set up our command object to use our connection, and our query
+            MySqlCommand sqlCommand = new MySqlCommand(sqlSearch, sqlConnection);
+            MySqlDataAdapter sqlDa = new MySqlDataAdapter(sqlCommand);
+
+            // Here's the table we want to fill with the results from our query
+            DataTable output = new DataTable();
+            string outputString = "";
+            // Here we go filling it!
+            sqlDa.Fill(output);
+            foreach (DataRow dataRow in output.Rows)
+            {
+                foreach (var item in dataRow.ItemArray)
+                {
+                    outputString = string.Concat(outputString + item);
+                }
+            }
+            return outputString;
         }
     }
 }
