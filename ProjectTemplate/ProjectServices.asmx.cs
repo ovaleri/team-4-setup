@@ -248,5 +248,64 @@ namespace ProjectTemplate
  
             return output;
         }
+        [WebMethod(EnableSession = true)]
+        public string NameSearchResults(string recipeName)
+        {
+            string sqlSearch = "SELECT * FROM Recipe WHERE recipeName like '%" + recipeName + "%'";
+            string sqlConnectString = getConString();
+            var recordList = new List<TableRecords>();
+
+            MySqlConnection sqlConnection = new MySqlConnection(sqlConnectString);
+            // Set up our command object to use our connection, and our query
+            MySqlCommand sqlCommand = new MySqlCommand(sqlSearch, sqlConnection);
+            MySqlDataAdapter sqlDa = new MySqlDataAdapter(sqlCommand);
+            try
+            {
+                using (sqlConnection)
+                {
+                    sqlConnection.Open();
+                    using (sqlCommand)
+                    {
+                        using (MySqlDataReader reader = sqlCommand.ExecuteReader())
+                        {
+                            {
+                                while (reader.Read())
+                                {
+                                    var record = new TableRecords();
+                                    record.recordID = Convert.ToInt32(reader["recipeID"]);
+                                    record.allergens = reader["allergens"].ToString();
+                                    record.name = reader["recipeName"].ToString();
+                                    record.instructions = reader["instructions"].ToString();
+                                    record.fat = Convert.ToInt32(reader["fat"]);
+                                    record.ingredients = reader["ingredients"].ToString();
+                                    record.calories = Convert.ToInt32(reader["calories"]);
+                                    record.protein = Convert.ToInt32(reader["protein"]);
+                                    record.carbs = Convert.ToInt32(reader["carbs"]);
+                                    record.mealType = reader["mealType"].ToString();
+                                    record.Tags = reader["tags"].ToString();
+
+
+                                    recordList.Add(record);
+                                    System.Console.WriteLine(recordList);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                // Log the exception for debugging purposes
+                Console.WriteLine("Error: " + e.Message);
+            }
+            string output = Environment.NewLine;
+            foreach(var rec in recordList)
+            {
+                output = string.Concat(output + rec.ToString() + Environment.NewLine + "<br><br>");
+            }
+ 
+            return output;
+        }
     }
 }
+

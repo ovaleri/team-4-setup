@@ -44,7 +44,8 @@
             </form>
             <div style="display: flexbox; width: 99%; background-color: #dadada; height: 5px; border-radius: 15px;"></div>
         </div>
-            
+        
+        <h2 id="results"></h2>
 
         <footer style="text-align: center; display: flex; align-self: flex-end; justify-content: center;">
             <!--Company Copyright and etc-->
@@ -58,7 +59,7 @@
     <!-- js can get inserted here-->
     <script>
         let userSearch = "";
-
+        
         document.querySelectorAll('.share-button').forEach(button => {
             button.addEventListener('click', function () {
                 // Save button value on click
@@ -70,5 +71,25 @@
                 event.preventDefault();});
             });
 
+        function callSearch() {
+
+            // Perform AJAX request to call the WebMethod
+            $.ajax({
+                type: "POST",  // Use POST to send data to the server
+                url: "ProjectServices.asmx/NameSearchResults",  // URL of the WebMethod
+                data: JSON.stringify({ recipeName: userSearch}),  // Send the search as JSON
+                contentType: "application/json; charset=utf-8",  // Content type of the request
+                dataType: "JSON",  // Expect JSON response
+                success: function (response) {
+                    console.log(response);  // Log the response to see what comes back
+                    alert("Search result: " + response.d);
+                    document.getElementById('results').innerHTML = "Search result:<br><br>" + response.d;
+                },
+                error: function (xhr, status, error) {
+                    // Error handling
+                    alert("Error: " + error);
+                }
+            });
+        }
     </script>
 </html>
