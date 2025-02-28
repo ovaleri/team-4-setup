@@ -21,7 +21,22 @@ public class TableRecords{
     public string instructions { get; set; }
     public override string ToString()
     {
-        return string.Format("{0} | {1} | {2} | {3} | {4} | {5} | {6} | {7} | {8} | {9} | {10}", recordID, name, ingredients, instructions, calories, protein, fat, carbs, allergens, mealType, Tags);
+        return string.Format(
+            "<div class='recipe-card'>" +
+            "<strong>Name:</strong> {1}<br>" +
+            "<strong>Ingredients:</strong> {2}<br>" +
+            "<strong>Instructions:</strong> {3}<br>" +
+            "<strong>Nutritional Info:</strong><br>" +
+            "&nbsp;&nbsp;- Calories: {4}<br>" +
+            "&nbsp;&nbsp;- Protein: {5}g<br>" +
+            "&nbsp;&nbsp;- Fat: {6}g<br>" +
+            "&nbsp;&nbsp;- Carbs: {7}g<br>" +
+            "<strong>Details:</strong><br>" +
+            "&nbsp;&nbsp;- Allergens: {8}<br>" +
+            "&nbsp;&nbsp;- Meal Type: {9}<br>" +
+            "&nbsp;&nbsp;- Tags: {10}" +
+            "</div>",
+            recordID, name, ingredients, instructions, calories, protein, fat, carbs, allergens, mealType, Tags);
     }
 }
 
@@ -308,4 +323,3 @@ namespace ProjectTemplate
         }
     }
 }
-
