@@ -15,9 +15,9 @@
         </div>
         <div class="navbar" style="color: black; align-items: center; text-align: center; justify-content: center;">
             <div style="border-right: 1px solid grey; display: flex; height: 90%;">
-                <a href="./sign-up">Sign Up</a>
+                <a id="loginLink" href="./signup.html">Sign Up</a>
             </div>
-            <a href="./ProjectServices.asmx.cs">Login</a>
+            <a id="profileLink" href="./index.html">Login</a>
         </div>
     </header>
     <div class="img_wrapper">
@@ -97,6 +97,34 @@
         event.preventDefault();  // Prevent the default form submission
         callSearch();  // Call the search function on form submit (Enter key or button click)
     });
+    document.addEventListener("DOMContentLoaded", function () {
+        var loggedInUser = localStorage.getItem("loggedInUser");
+        var loginLink = document.getElementById("loginLink");
+        var profileLink = document.getElementById("profileLink");
 
+        if (loggedInUser) {
+            document.getElementById('loginLink').classList.add('hidden'); // Display username instead of "Login"
+            document.getElementById('profileLink').classList.remove('hidden');
+            document.getElementById('profileLink').classList.add('navbar');
+            document.getElementById('profileLink').textContent = loggedInUser;
+            profileLink.href = "profile.html"; // Link to profile page
+            profileLink.style.cursor = "pointer";
+            profileLink.style.fontWeight = "bold"; // Make it more visible
+
+            // Add logout option
+            var logoutBtn = document.createElement("a");
+            logoutBtn.textContent = " (Logout)";
+            logoutBtn.href = "#";
+            logoutBtn.style.color = "red";
+            logoutBtn.style.marginLeft = "10px";
+            logoutBtn.onclick = function () {
+                localStorage.removeItem("loggedInUser");
+                window.location.reload(); // Refresh to reset UI
+            };
+
+            loginLink.parentNode.appendChild(logoutBtn); // Add logout next to the username
+        }
+
+    });
 
 </script>

@@ -14,10 +14,10 @@
                 4BitCoderz
             </div>
             <div class="navbar" style="color: black; align-items: center; text-align: center; justify-content: center;">
-                    <div style="border-right: 1px solid grey; display: flex; height: 90%;">
-                    <a href="./sign-up">Sign Up</a>
-                    </div>
-                    <a href="../ProjectTemplate/index.html">Login</a>
+                <div style="border-right: 1px solid grey; display: flex; height: 90%;">
+                    <a id="loginLink" href="/signup.html">Sign Up</a>
+                </div>
+                <a id="profileLink" href="/index.html">Login</a>
             </div>
         </header>
 
@@ -65,7 +65,39 @@
             </h6>
         </footer>
     </body>
+
+</html>
 <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var loggedInUser = localStorage.getItem("loggedInUser");
+        var loginLink = document.getElementById("loginLink");
+        var profileLink = document.getElementById("profileLink");
+
+        if (loggedInUser) {
+            document.getElementById('loginLink').classList.add('hidden'); // Display username instead of "Login"
+            document.getElementById('profileLink').classList.remove('hidden');
+            document.getElementById('profileLink').classList.add('navbar');
+            document.getElementById('profileLink').textContent = loggedInUser;
+            profileLink.href = "profile.html"; // Link to profile page
+            profileLink.style.cursor = "pointer";
+            profileLink.style.fontWeight = "bold"; // Make it more visible
+
+            // Add logout option
+            var logoutBtn = document.createElement("a");
+            logoutBtn.textContent = " (Logout)";
+            logoutBtn.href = "#";
+            logoutBtn.style.color = "red";
+            logoutBtn.style.marginLeft = "10px";
+            logoutBtn.onclick = function () {
+                localStorage.removeItem("loggedInUser");
+                window.location.reload(); // Refresh to reset UI
+            };
+
+            loginLink.parentNode.appendChild(logoutBtn); // Add logout next to the username
+        }
+
+    });
+
     let selectedButtonValue = "";
     let selectedTags = [];
     function callSearch() {
@@ -74,7 +106,7 @@
         $.ajax({
             type: "POST",  // Use POST to send data to the server
             url: "ProjectServices.asmx/SearchResults",  // URL of the WebMethod
-            data: JSON.stringify({ tags: selectedTags , size: selectedButtonValue}),  // Send the inputList as JSON
+            data: JSON.stringify({ tags: selectedTags, size: selectedButtonValue }),  // Send the inputList as JSON
             contentType: "application/json; charset=utf-8",  // Content type of the request
             dataType: "JSON",  // Expect JSON response
             success: function (response) {
@@ -88,70 +120,68 @@
             }
         });
     }
-        document.querySelectorAll('.large-button').forEach(button => {
-            button.addEventListener('click', function () {
-                // Save button value on click
-                selectedButtonValue = this.getAttribute('data-value');
-                console.log(selectedButtonValue);
-                
-                // Hide buttons container [Container holding the large-buttons]
-                document.getElementById('Buttons').classList.add('hidden');
+    document.querySelectorAll('.large-button').forEach(button => {
+        button.addEventListener('click', function () {
+            // Save button value on click
+            selectedButtonValue = this.getAttribute('data-value');
+            console.log(selectedButtonValue);
 
-                // Show tags selection container
-                document.getElementById('tagSelection').classList.remove('hidden');
-                document.getElementById('buttonContainer').classList.remove('hidden');
+            // Hide buttons container [Container holding the large-buttons]
+            document.getElementById('Buttons').classList.add('hidden');
 
-                // Tags
-                let tags = ["Healthy", "Quick", "Spicy", "Vegan", "Dessert", "High Protein", "Low Carb", 
-                "Gluten-Free", "Keto", "Sweet", "Savory", "Dairy-Free", "Organic", "Budget-Friendly", "Exotic", 
-                "Traditional", "Comfort Food", "Gourmet", "Kids-Friendly", "Breakfast", "Lunch", "Dinner", "Snack", "Fast Food", 
-                "Homemade", "BBQ", "Seafood", "Italian", "Mexican", "Asian", "Mediterranean", "Indian", "American", "French", "Street Food", 
-                "Fusion", "Plant-Based", "Energy Boosting", "Low Fat", "Nut-Free", "Soy-Free", "Sugar-Free", "Paleo", "Sustainable", "Local", "Fermented", 
+            // Show tags selection container
+            document.getElementById('tagSelection').classList.remove('hidden');
+            document.getElementById('buttonContainer').classList.remove('hidden');
+
+            // Tags
+            let tags = ["Healthy", "Quick", "Spicy", "Vegan", "Dessert", "High Protein", "Low Carb",
+                "Gluten-Free", "Keto", "Sweet", "Savory", "Dairy-Free", "Organic", "Budget-Friendly", "Exotic",
+                "Traditional", "Comfort Food", "Gourmet", "Kids-Friendly", "Breakfast", "Lunch", "Dinner", "Snack", "Fast Food",
+                "Homemade", "BBQ", "Seafood", "Italian", "Mexican", "Asian", "Mediterranean", "Indian", "American", "French", "Street Food",
+                "Fusion", "Plant-Based", "Energy Boosting", "Low Fat", "Nut-Free", "Soy-Free", "Sugar-Free", "Paleo", "Sustainable", "Local", "Fermented",
                 "Raw", "Air-Fried", "Grilled", "Baked", "Fried"];
-                
-                //Find the tag container to be able to add these tags ^ to it
-                let tagsContainer = document.getElementById("tags");
-                tagsContainer.innerHTML = ""; // Clear previous selections
-                
-                //arrow function that creates a div for every tag listed in tags of the class "tag"
-                tags.forEach(tag => {
-                    let tagElement = document.createElement("div");
-                    tagElement.classList.add("tag");
-                    tagElement.innerText = tag;
-                    
-                    //Listens for a click on any tag button, if clicked turns light blue and gets added to selectedTags list or removed if selectedTags includes the clicked tag
-                    tagElement.addEventListener("click", function () {
-                        if (selectedTags.includes(tag)) {
-                            selectedTags = selectedTags.filter(t => t !== tag);
-                            tagElement.classList.remove("selected");
-                            console.log(selectedTags)
-                        } else if (selectedTags.length < 3) { //once selected tags reach length of 10 it won't let you add anymore, but if its less than 10, then the tag turns light blue and gets added
-                            selectedTags.push(tag);
-                            tagElement.classList.add("selected");
-                            console.log(selectedTags)
-                        }
-                    });
-                    //adds a child to tag container of every tag in the tags list
-                    tagsContainer.appendChild(tagElement);
-                });
-                let submitContainer = document.getElementById("button");
-                let submit = document.createElement("div");
 
-                submit.innerText = "Submit";
-                submit.classList.add("share-button");
-                submit.style.boxSizing = "border-box";
- 
-                submit.addEventListener("click", function () {
-                    callSearch();
-                    document.getElementById('tagSelection').classList.add('hidden'); // Hide the tags section
-                    tagsContainer.innerHTML = "";
-                    document.getElementById('buttonContainer').classList.add('hidden');
-                });
-                submitContainer.appendChild(submit);
+            //Find the tag container to be able to add these tags ^ to it
+            let tagsContainer = document.getElementById("tags");
+            tagsContainer.innerHTML = ""; // Clear previous selections
 
+            //arrow function that creates a div for every tag listed in tags of the class "tag"
+            tags.forEach(tag => {
+                let tagElement = document.createElement("div");
+                tagElement.classList.add("tag");
+                tagElement.innerText = tag;
+
+                //Listens for a click on any tag button, if clicked turns light blue and gets added to selectedTags list or removed if selectedTags includes the clicked tag
+                tagElement.addEventListener("click", function () {
+                    if (selectedTags.includes(tag)) {
+                        selectedTags = selectedTags.filter(t => t !== tag);
+                        tagElement.classList.remove("selected");
+                        console.log(selectedTags)
+                    } else if (selectedTags.length < 3) { //once selected tags reach length of 10 it won't let you add anymore, but if its less than 10, then the tag turns light blue and gets added
+                        selectedTags.push(tag);
+                        tagElement.classList.add("selected");
+                        console.log(selectedTags)
+                    }
+                });
+                //adds a child to tag container of every tag in the tags list
+                tagsContainer.appendChild(tagElement);
             });
-    });
-  
-</script>
+            let submitContainer = document.getElementById("button");
+            let submit = document.createElement("div");
 
-</html>
+            submit.innerText = "Submit";
+            submit.classList.add("share-button");
+            submit.style.boxSizing = "border-box";
+
+            submit.addEventListener("click", function () {
+                callSearch();
+                document.getElementById('tagSelection').classList.add('hidden'); // Hide the tags section
+                tagsContainer.innerHTML = "";
+                document.getElementById('buttonContainer').classList.add('hidden');
+            });
+            submitContainer.appendChild(submit);
+
+        });
+    });
+
+</script>
