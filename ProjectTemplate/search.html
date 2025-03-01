@@ -59,18 +59,6 @@
     <!-- js can get inserted here-->
     <script>
         let userSearch = "";
-        
-        document.querySelectorAll('.share-button').forEach(button => {
-            button.addEventListener('click', function () {
-                // Save button value on click
-                const SearchID = document.getElementById('search');
-                const SearchValue = SearchID.value;
-                userSearch = SearchValue;
-                console.log(userSearch);
-                callSearch();
-                SearchID.value = '';
-                event.preventDefault();});
-            });
 
         function callSearch() {
 
@@ -78,7 +66,7 @@
             $.ajax({
                 type: "POST",  // Use POST to send data to the server
                 url: "ProjectServices.asmx/NameSearchResults",  // URL of the WebMethod
-                data: JSON.stringify({ recipeName: userSearch}),  // Send the search as JSON
+                data: JSON.stringify({ recipeName: userSearch }),  // Send the search as JSON
                 contentType: "application/json; charset=utf-8",  // Content type of the request
                 dataType: "JSON",  // Expect JSON response
                 success: function (response) {
@@ -92,5 +80,18 @@
                 }
             });
         }
+        document.querySelectorAll('.share-button').forEach(button => {
+            button.addEventListener('click', function () {
+                // Save button value on click
+                const SearchID = document.getElementById('search');
+                const SearchValue = SearchID.value;
+                userSearch = SearchValue;
+                console.log(userSearch);
+                callSearch();
+                SearchID.value = '';
+                event.preventDefault();});
+            });
+
+
     </script>
 </html>
