@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
@@ -67,6 +67,7 @@
                 const SearchValue = SearchID.value;
                 userSearch = SearchValue;
                 console.log(userSearch);
+                callSearch();
                 SearchID.value = '';
                 event.preventDefault();});
             });

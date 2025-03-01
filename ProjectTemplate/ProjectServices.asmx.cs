@@ -263,6 +263,7 @@ namespace ProjectTemplate
  
             return output;
         }
+
         [WebMethod(EnableSession = true)]
         public string NameSearchResults(string recipeName)
         {
